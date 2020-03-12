@@ -1,0 +1,18 @@
+GRANT USAGE ON *.* TO 'dbs'@'xxx' IDENTIFIED BY PASSWORD 'xxxx';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON dbs.* TO 'dbs'@'xxx';
+
+GRANT USAGE ON *.* TO 'dbs'@'192.168.%.%' IDENTIFIED BY PASSWORD 'xxxx';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON dbs.* TO 'dbs'@'xxx';
+
+
+
+drop PROCEDURE dbs.proc_genkey;
+delimiter //
+CREATE DEFINER='dbs'@'%' PROCEDURE `proc_genkey`(IN i_ip varchar(20),IN i_port int,IN i_dbtype varchar(15),IN i_bakmethod varchar(15),IN in_timestring varchar(20))
+BEGIN
+  declare target varchar(50);
+  set target=concat(i_ip,'_:_',i_port);
+  select concat(md5(lower(target)),md5(upper(i_dbtype)),md5(lower(i_bakmethod)),md5(to_days(str_to_date(in_timestring,'%Y-%m-%d %H:%i:%s')))) strings;
+END
+//
+delimiter ;
