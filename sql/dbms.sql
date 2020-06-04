@@ -1,0 +1,62 @@
+CREATE TABLE `backup_info` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary key',
+  `ip` varchar(16) NOT NULL COMMENT '数据库实例ip',
+  `port` smallint(4) NOT NULL COMMENT '数据库实例端口',
+  `db_type` varchar(10) NOT NULL COMMENT '数据库实例类型',
+  `bak_type` varchar(32) NOT NULL COMMENT '备份方法',
+  `level` varchar(20) NOT NULL COMMENT '备份级别',
+  `level_value` varchar(500) NOT NULL COMMENT '备份级别值',
+  `start_time` datetime NOT NULL COMMENT '备份开始时间',
+  `end_time` datetime NOT NULL COMMENT '备份结束时间',
+  `size` bigint(20) NOT NULL COMMENT '备份集大小',
+  `status` tinyint(3) NOT NULL COMMENT '备份状态',
+  `message` varchar(1024) DEFAULT NULL COMMENT '备份信息',
+  `filer_dir` varchar(150) NOT NULL COMMENT '备份挂载目录',
+  `file_dir` varchar(300) NOT NULL COMMENT '备份文件目录',
+  `backupset_status` varchar(10) NOT NULL COMMENT '备份集状态',
+  `update_time` datetime NOT NULL COMMENT '备份保留更新时间',
+  `instance_role` varchar(10) NOT NULL COMMENT '数据库实例角色',
+  `is_compressed` enum('Y','N') NOT NULL COMMENT '是否压缩',
+  `is_encrypted` enum('Y','N') NOT NULL COMMENT '是否加密',
+  `master_log_file` varchar(50) NOT NULL COMMENT 'mysql bin-log文件名',
+  `master_log_pos` bigint(20) NOT NULL COMMENT 'mysql bin-log同步点',
+  PRIMARY KEY (`id`),
+  KEY `idx_start_time` (`start_time`),
+  KEY `idx_filer_dir` (`filer_dir`)
+) ENGINE=InnoDB AUTO_INCREMENT=231247 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `backup_config` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ip` varchar(16) NOT NULL COMMENT '数据库实例ip',
+  `port` smallint(4) NOT NULL COMMENT '数据库实例端口',
+  `bak_type` varchar(32) NOT NULL COMMENT '备份方法',
+  `db_type` varchar(10) NOT NULL COMMENT '数据库实例类型',
+  `level` varchar(32) NOT NULL DEFAULT 'instance' COMMENT '备份级别',
+  `level_value` varchar(200) NOT NULL DEFAULT 'null' COMMENT '备份级别值',
+  `is_compressed` enum('Y','N') NOT NULL DEFAULT 'Y' COMMENT '是否压缩',
+  `is_slave` enum('Y','N') NOT NULL DEFAULT 'Y' COMMENT '是否从库',
+  `parallel` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '并行备份 0:不并行 1:并行',
+  `retention` tinyint(3) unsigned NOT NULL DEFAULT 30 COMMENT '备份保留份数',
+  `is_encrypted` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '是否加密',
+  `schedule_type` enum('week','month') NOT NULL DEFAULT 'week' COMMENT '备份调度周期',
+  `schedule_time` varchar(100) NOT NULL DEFAULT 'Mon,Tue,Wed,Thu,Fri,Sat,Sun' COMMENT '备份调度时间',
+  `storage_ip` varchar(60) NOT NULL COMMENT '备份存储入口',
+  `storage_type` varchar(30) NOT NULL COMMENT '备份存储类型',
+  `lvm_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'lvm备份过期天数',
+  `mysqldump_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'mysqldump备份过期天数',
+  `mongodump_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'mongodump备份过期天数',
+  `mysql_hotbak_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'mysql xtrabackup备份过期天数',
+  `mysql_binlog_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'mysql binlog备份过期天数',
+  `ftp_expire_days` int(11) NOT NULL DEFAULT 30 COMMENT 'ftp备份过期天数',
+  `lvm_speed` int(11) NOT NULL DEFAULT 10000 COMMENT 'lvm备份速率',
+  `mysql_binlog_speed` int(11) NOT NULL DEFAULT 10000 COMMENT 'mysql binlog备份速率',
+  `mysql_hotbak_throttle` int(11) NOT NULL DEFAULT 100 COMMENT 'mysql xtrabackup备份throttle值',
+  `create_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_ip_port_btype_lev_levval` (`ip`,`port`,`bak_type`,`level`,`level_value`)
+) ENGINE=InnoDB AUTO_INCREMENT=2298 DEFAULT CHARSET=utf8;
+
+
+
