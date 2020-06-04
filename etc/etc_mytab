@@ -1,0 +1,6 @@
+/data/server/mysql/    /data/mysql/my3326/my.cnf    3326    Y
+/data/server/mysql/    /data/mysql/my3336/my.cnf    3336    Y
+/data/server/mysql/    /data/mysql/userlog_3307/my.cnf    3307    Y
+/data/server/mariadb/    /data/mysql/my3306/my.cnf    3306    Y
+/usr/    /data/mysql/my3346/my.cnf    3346    Y
+/data/server/mariadb/ /data/mysql/my3310/my.cnf 3310 Y
