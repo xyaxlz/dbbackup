@@ -1,3 +1,4 @@
+#路径/etc/mytab
 /data/server/mysql/    /data/mysql/my3326/my.cnf    3326    Y
 /data/server/mysql/    /data/mysql/my3336/my.cnf    3336    Y
 /data/server/mysql/    /data/mysql/userlog_3307/my.cnf    3307    Y
